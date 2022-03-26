@@ -21,8 +21,10 @@ void fillZeros(std::string &nb1, std::string &nb2)
         makeFill(nb1, nb2.size() - nb1.size());
 }
 
-std::string infin_add(std::string nb1, std::string nb2)
+std::string infin_add(std::string n1, std::string n2)
 {
+    std::string nb1 = n1;
+    std::string nb2 = n2;
     std::reverse(nb1.begin(), nb1.end());
     std::reverse(nb2.begin(), nb2.end());
     std::string result;

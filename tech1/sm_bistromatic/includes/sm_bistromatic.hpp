@@ -28,12 +28,13 @@ class sm_bistromatic {
 
 //ALGO
 void fillZeros(std::string &nb1, std::string &nb2);
-bool findBiggest(std::string &nb1, std::string &nb2);
+int findBiggest(std::string &nb1, std::string &nb2);
 void deleteZeros(std::string &nb);
 
 //CALCULATORS
 std::string infin_add(std::string nb1, std::string nb2);
 std::string infin_sub(std::string nb1, std::string nb2);
 std::string infin_mult(std::string s1, std::string s2);
+std::string infin_div(std::string nb1, std::string nb2);
 
 #endif /* !SM_BISTROMATIC_HPP_ */

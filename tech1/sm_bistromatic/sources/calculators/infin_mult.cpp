@@ -25,7 +25,8 @@ std::string infin_mult(std::string s1, std::string s2)
     std::reverse(vec[1].begin(), vec[1].end());
     size_t rec = 0;
     int b_i_res;
-
+    if (s1 == "0" || s2 == "0")
+        return "0";
     for (size_t i = 0; i < vec[!pow].size(); ++i) {
         std::string b_res;
         for (size_t j = 0; j < vec[pow].size(); ++j) {

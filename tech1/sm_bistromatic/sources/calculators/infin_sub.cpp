@@ -9,30 +9,34 @@
 #include <iostream>
 #include <string.h>
 
-bool findBiggest(std::string &nb1, std::string &nb2)
+int findBiggest(std::string &nb1, std::string &nb2)
 {
     if (nb1.size() > nb2.size())
-        return false;
+        return 0;
     if (nb1.size() < nb2.size())
-        return true;
-    if (strcmp(nb1.c_str(), nb2.c_str()) >= 0)
-        return false;
-    else
-        return true;
+        return 1;
+    if (strcmp(nb1.c_str(), nb2.c_str()) > 0)
+        return 0;
+    if (strcmp(nb1.c_str(), nb2.c_str()) < 0)
+        return 1;
+    return 2;
 }
 
 void deleteZeros(std::string &nb)
 {
-    for (int i = 0; nb.size(); ++i) {
-        if (nb.at(i) == '0')
+    for (int i = 0; i < nb.size(); ++i) {
+        if (nb.at(i) == '0') {
             nb.erase(nb.begin() + i);
-        else
+        } else {
             break;
+        }
     }
 }
 
 std::string infin_sub(std::string nb1, std::string nb2)
 {
+    if (nb1 == nb2)
+        return "0";
     std::vector<std::string> vec;
     vec.push_back(nb1);
     vec.push_back(nb2);

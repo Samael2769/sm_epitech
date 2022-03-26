@@ -11,12 +11,9 @@ TEST_DIR	=	tests/
 
 LIB_DIR	=	lib/sm_libc/
 
-SRC_FILES	=	calculators/infin_add.cpp\
-				calculators/infin_sub.cpp\
-				calculators/infin_mult.cpp\
-				calculators/infin_div.cpp\
+SRC_FILES	=\
 
-SRC_FILES_MAIN	=	sm_bistromatic.cpp\
+SRC_FILES_MAIN	=	bsq.cpp\
 					\
 
 TEST_FILES	=\
@@ -29,7 +26,7 @@ SRC_MAIN	=	$(addprefix $(SRC_DIR), $(SRC_FILES_MAIN))
 
 OBJ	=	$(SRC:.cpp=.o) $(SRC_MAIN:.cpp=.o)	
 
-NAME	=	sm_bistromatic
+NAME	=	bsq
 
 ##############################################################
 

@@ -10,7 +10,7 @@
 
 int engine(sm_bistromatic &bistro)
 {
-    std::cout << infin_mult("12", "2") << std::endl;
+    std::cout << infin_div("40", "20") << std::endl;
     return 0;
 }
 
