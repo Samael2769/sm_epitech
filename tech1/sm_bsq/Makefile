@@ -26,7 +26,7 @@ SRC_MAIN	=	$(addprefix $(SRC_DIR), $(SRC_FILES_MAIN))
 
 OBJ	=	$(SRC:.cpp=.o) $(SRC_MAIN:.cpp=.o)	
 
-NAME	=	bsq
+NAME	=	sm_bsq
 
 ##############################################################
 
