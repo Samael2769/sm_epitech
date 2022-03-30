@@ -11,7 +11,7 @@ TEST_DIR	=	tests/
 
 LIB_DIR	=	lib/sm_libc/
 
-SRC_FILES	=\
+SRC_FILES	=	bsqObject.cpp\
 
 SRC_FILES_MAIN	=	bsq.cpp\
 					\
