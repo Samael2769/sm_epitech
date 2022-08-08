@@ -12,12 +12,14 @@
 
 class sm_bistromatic {
     public:
-        sm_bistromatic(std::string op);
+        sm_bistromatic(std::string op, std::string base_nb, std::string base_op);
         ~sm_bistromatic();
         void run();
     protected:
     private:
         Calculator calc;
+        std::string base_nb;
+        std::string base_op;
 };
 
 #endif /* !SM_BISTROMATIC_HPP_ */
