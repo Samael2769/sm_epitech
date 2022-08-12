@@ -17,10 +17,96 @@ Calculator::~Calculator()
 {
 }
 
+static int findChar(std::string &str)
+{
+    for (int i = 0; i < str.size(); i++) {
+        if (str[i] == '+' || (str[i] == '-' && i != 0) || str[i] == '*' || str[i] == '/' || str[i] == '%')
+            return 0;
+    }
+    return -1;
+}
+
+static std::string findOperation(std::string &str)
+{
+    int x = 0;
+    int y = 0;
+    std::string op = "";
+
+    for (int i = 0; i < str.size(); i++) {
+        if (str[i] == '*' || str[i] == '/' || str[i] == '%') {
+            for (x = i - 1; x > 0; x--) {
+                if (str[x] < '0' || str[x] > '9')
+                    break;
+            }
+            for (y = i + 1; y < str.size(); y++) {
+                if (str[y] < '0' || str[y] > '9')
+                    break;
+            }
+            op = str.substr(x, y);
+            break;
+        }
+    }
+    if (op != "") {
+        if (op[0] == '+' || op[0] == '*' || op[0] == '/' || op[0] == '%' || (op[0] == '-' && (str[x - 1] != '-' || str[x - 1] != '+' || str[x - 1] != '*' || str[x - 1] != '/' || str[x - 1] != '%')))
+            op = op.substr(1, op.size());
+        return op;
+    }
+    for (int i = 0; i < str.size(); i++) {
+        if (str[i] == '+' || (str[i] == '-' && i != 0)) {
+            for (x = i - 1; x > 0; x--) {
+                if (str[x] < '0' || str[x] > '9')
+                    break;
+            }
+            for (y = i + 1; y < str.size(); y++) {
+                if (str[y] < '0' || str[y] > '9')
+                    break;
+            }
+            op = str.substr(x, y);
+            break;
+        }
+    }
+    return op;
+}
+
+std::string Calculator::do_operation(std::string &i1, std::string &i2, char op) {
+    if (op == '+')
+        return add(i1, i2);
+    if (op == '-')
+        return sub(i1, i2);
+    if (op == '*')
+        return mul(i1, i2);
+    if (op == '/')
+        return div(i1, i2);
+    if (op == '%')
+        return mod(i1, i2);
+    return "";
+}
+
+std::string Calculator::divideCalcIn3(std::string &op) {
+    char operand;
+    std::string i1;
+    std::string i2;
+    for (int i = 0; i < op.size(); i++) {
+        if (op[i] == '+' || (op[i] == '-' && i != 0) || op[i] == '*' || op[i] == '/' || op[i] == '%') {
+            operand = op[i];
+            i1 = op.substr(0, i);
+            i2 = op.substr(i + 1, op.size());
+            break;
+        }
+    }
+    return do_operation(i1, i2, operand);
+}
+
+//Claculate the "calc" string and return the result
 std::string Calculator::do_op()
 {
-    std::string res = mod("17", "2");
-    return res;
+    std::string res = "";
+    while(findChar(calc) != -1) {
+        std::string op = findOperation(calc);
+        res = divideCalcIn3(op);
+        calc.replace(calc.find(op), op.size(), res);
+    }
+    return calc;
 }
 
 void Calculator::convertBase(std::string base_nb, std::string base_op)

@@ -18,6 +18,8 @@ class Calculator {
         Calculator(std::string &a);
         ~Calculator();
         std::string do_op();
+        std::string do_operation(std::string &i1, std::string &i2, char op);
+        std::string divideCalcIn3(std::string &op);
         void convertBase(std::string base_nb, std::string base_op);
         std::string add(const std::string &, const std::string &);
         std::string sub(const std::string &, const std::string &);
