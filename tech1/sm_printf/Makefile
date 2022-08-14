@@ -72,7 +72,7 @@ clean:
 
 fclean: clean
 	@$(PRNT) -e "\e[0;31m Deleting execs... \e[0m"
-	$(RM) $(NAME) $(TEST_NAME)
+	$(RM) $(NAME) $(TEST_NAME) $(LIB_NAME)
 
 unit_test: fclean
 	@$(PRNT) -e "\e[0;31m Compiling tests for $(NAME)... \e[0m"
