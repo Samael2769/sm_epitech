@@ -31,6 +31,30 @@ void print_float_dec(va_list ap);
 void print_float_dec_maj(va_list ap);
 void print_argSize(va_list ap);
 
+std::string flag_numbers(std::string arg, va_list ap);
+std::string flag_zero(std::string arg, va_list ap);
+std::string flag_minus(std::string arg, va_list ap);
+std::string flag_plus(std::string arg, va_list ap);
+std::string flag_space(std::string arg, va_list ap);
+std::string flag_hash(std::string arg, va_list ap);
+
+std::map<char, std::string (*)(std::string, va_list)> flags_tab = {
+    {'#', &flag_hash},
+    {'0', &flag_zero},
+    {'-', &flag_minus},
+    {'+', &flag_plus},
+    {' ', &flag_space},
+    {'1', &flag_numbers},
+    {'2', &flag_numbers},
+    {'3', &flag_numbers},
+    {'4', &flag_numbers},
+    {'5', &flag_numbers},
+    {'6', &flag_numbers},
+    {'7', &flag_numbers},
+    {'8', &flag_numbers},
+    {'9', &flag_numbers}
+};
+
 
 std::map<char, void (*)(va_list)> formats_tab = {
     {'c', &print_char},

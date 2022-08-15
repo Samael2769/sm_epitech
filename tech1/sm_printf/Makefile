@@ -13,6 +13,7 @@ LIB_DIR			=	lib/sm_libc/
 
 SRC_FILES		=	sm_printf.cpp			\
 					formats.cpp				\
+					flags.cpp				\
 
 SRC_FILES_MAIN	=	main.cpp			\
 

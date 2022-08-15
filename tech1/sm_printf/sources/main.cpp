@@ -10,6 +10,6 @@
 
 int main()
 {
-    sm_printf("%f\n", 1.20);
+    sm_printf("%1f\n", 1.20);
     return 0;
 }
