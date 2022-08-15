@@ -94,3 +94,30 @@ std::pair<int, std::string> flag_zero(std::string arg, va_list ap, int &i, std::
     }
     return std::make_pair(0, s);
 }
+
+std::pair<int, std::string> flag_precision(std::string arg, va_list ap, int &i, std::pair<int, std::string> &ret)
+{
+    char c = getFormat(arg, i + 1);
+    std::string args = getArgs(arg, i + 1);
+    i += args.size() + 1;
+    std::string s = "sfeEgG";
+    if (s.find(c) == std::string::npos)
+        return std::make_pair(0, "");
+    switch (c) {
+        case 's':
+            ret.second = ret.second.substr(0, std::stoi(args));
+            return std::make_pair(0, "");
+        case 'f':
+            return std::make_pair(4, args);
+        case 'e':
+            return std::make_pair(4, args);
+        case 'E':
+            return std::make_pair(4, args);
+        case 'g':
+            return std::make_pair(4, args);
+        case 'G':
+            return std::make_pair(4, args);
+        default:
+            return std::make_pair(0, "");
+    }
+}

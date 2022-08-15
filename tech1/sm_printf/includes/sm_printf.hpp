@@ -38,6 +38,7 @@ std::pair<int, std::string> flag_minus(std::string arg, va_list ap, int &i, std:
 std::pair<int, std::string> flag_plus(std::string arg, va_list ap, int &i, std::pair<int, std::string> &ret);
 std::pair<int, std::string> flag_space(std::string arg, va_list ap, int &i, std::pair<int, std::string> &ret);
 std::pair<int, std::string> flag_hash(std::string arg, va_list ap, int &i, std::pair<int, std::string> &ret);
+std::pair<int, std::string> flag_precision(std::string arg, va_list ap, int &i, std::pair<int, std::string> &ret);
 
 std::map<char, std::pair<int, std::string> (*)(std::string, va_list, int &, std::pair<int, std::string> &)> flags_tab = {
     {'#', &flag_hash},
@@ -52,7 +53,8 @@ std::map<char, std::pair<int, std::string> (*)(std::string, va_list, int &, std:
     {'6', &flag_numbers},
     {'7', &flag_numbers},
     {'8', &flag_numbers},
-    {'9', &flag_numbers}
+    {'9', &flag_numbers},
+    {'.', &flag_precision},
 };
 
 

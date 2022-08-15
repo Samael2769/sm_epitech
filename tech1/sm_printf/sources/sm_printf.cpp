@@ -44,10 +44,11 @@ void sm_printf(const char *format, ...)
             bool isFlag = true;
             std::string retur = formats_tab[c](ap);
             int size = retur.size();
+            ret = std::make_pair(size, retur);
             while (isFlag) {
                 if (flags_tab.find(format[i]) != flags_tab.end()) {
                     size += flag.second.size();
-                    ret = make_pair(size, retur);
+                    ret.first = size;
                     flag = flags_tab[format[i]](format, ap, i, ret);
                     if (flag.first == 1)
                         isLeft = 1;
@@ -61,7 +62,7 @@ void sm_printf(const char *format, ...)
                 }
             }
             std::cout << left;
-            std::cout << retur;
+            std::cout << ret.second;
             std::cout << right;
         } else {
             std::cout << format[i];
