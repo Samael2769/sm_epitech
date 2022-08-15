@@ -108,19 +108,19 @@ std::pair<int, std::string> flag_precision(std::string arg, va_list ap, int &i, 
             ret.second = ret.second.substr(0, std::stoi(args));
             return std::make_pair(0, "");
         case 'f':
-            ret.second = ret.second.substr(ret.second.find(".") + 1, ret.second.find(".") + 1 + std::stoi(args));
+            ret.second = ret.second.substr(0, ret.second.find(".") + 1 + std::stoi(args));
             return std::make_pair(0, "");
         case 'e':
-            ret.second = ret.second.substr(ret.second.find(".") + 1, ret.second.find(".") + 1 + std::stoi(args));
+            ret.second = ret.second.substr(0, ret.second.find(".") + 1 + std::stoi(args));
             return std::make_pair(0, "");
         case 'E':
-            ret.second = ret.second.substr(ret.second.find(".") + 1, ret.second.find(".") + 1 + std::stoi(args));
+            ret.second = ret.second.substr(0, ret.second.find(".") + 1 + std::stoi(args));
             return std::make_pair(0, "");
         case 'g':
-            ret.second = ret.second.substr(ret.second.find(".") + 1, ret.second.find(".") + 1 + std::stoi(args));
+            ret.second = ret.second.substr(0, ret.second.find(".") + 1 + std::stoi(args));
             return std::make_pair(0, "");
         case 'G':
-            ret.second = ret.second.substr(ret.second.find(".") + 1, ret.second.find(".") + 1 + std::stoi(args));
+            ret.second = ret.second.substr(0, ret.second.find(".") + 1 + std::stoi(args));
             return std::make_pair(0, "");
         default:
             return std::make_pair(0, "");

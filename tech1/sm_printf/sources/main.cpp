@@ -10,7 +10,7 @@
 
 int main()
 {
-    sm_printf("%#010xLOL%.2s\n", 12, "helo");
-    printf("%#010xLOL%.2s\n", 12, "helo");
+    sm_printf("%.2f\n", 3.125);
+    printf("%.2f\n", 3.125);
     return 0;
 }
