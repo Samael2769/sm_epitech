@@ -108,15 +108,20 @@ std::pair<int, std::string> flag_precision(std::string arg, va_list ap, int &i, 
             ret.second = ret.second.substr(0, std::stoi(args));
             return std::make_pair(0, "");
         case 'f':
-            return std::make_pair(4, args);
+            ret.second = ret.second.substr(ret.second.find(".") + 1, std::stoi(args));
+            return std::make_pair(0, "");
         case 'e':
-            return std::make_pair(4, args);
+            ret.second = ret.second.substr(ret.second.find(".") + 1, std::stoi(args));
+            return std::make_pair(0, "");
         case 'E':
-            return std::make_pair(4, args);
+            ret.second = ret.second.substr(ret.second.find(".") + 1, std::stoi(args));
+            return std::make_pair(0, "");
         case 'g':
-            return std::make_pair(4, args);
+            ret.second = ret.second.substr(ret.second.find(".") + 1, std::stoi(args));
+            return std::make_pair(0, "");
         case 'G':
-            return std::make_pair(4, args);
+            ret.second = ret.second.substr(ret.second.find(".") + 1, std::stoi(args));
+            return std::make_pair(0, "");
         default:
             return std::make_pair(0, "");
     }
