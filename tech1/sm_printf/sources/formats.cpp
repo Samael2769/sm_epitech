@@ -9,98 +9,113 @@
 #include <string>
 #include <iostream>
 #include <bitset>
+#include <sstream>
 
-void print_char(va_list ap)
+std::string print_char(va_list ap)
 {
     char c = va_arg(ap, int);
-    std::cout << c;
+    return std::string(1, c);
 }
 
-void print_string(va_list ap)
+std::string print_string(va_list ap)
 {
     std::string s = va_arg(ap, char*);
-    std::cout << s;
+    return s;
 }
 
-void print_int(va_list ap)
+std::string print_int(va_list ap)
 {
     int i = va_arg(ap, int);
-    std::cout << i;
+    return std::to_string(i);
 }
 
-void print_float(va_list ap)
+std::string print_float(va_list ap)
 {
     float f = va_arg(ap, double);
-    std::cout << f;
+    return std::to_string(f);
 }
 
-void print_pointer(va_list ap)
+std::string print_pointer(va_list ap)
 {
     void *p = va_arg(ap, void*);
-    std::cout << p;
+    return std::to_string((long)p);
 }
 
-void print_binary(va_list ap)
+std::string print_binary(va_list ap)
 {
     int i = va_arg(ap, int);
-    std::cout << std::bitset<sizeof(int) * 8>(i);
+    return std::bitset<32>(i).to_string();
 }
 
-void print_octal(va_list ap)
+std::string print_octal(va_list ap)
 {
     int i = va_arg(ap, int);
-    std::cout << std::oct << i;
+    std::stringstream ss;
+    ss << std::oct << i;
+    return ss.str();
 }
 
-void print_hex(va_list ap)
+std::string print_hex(va_list ap)
 {
     int i = va_arg(ap, int);
-    std::cout << std::hex << i;
+    std::stringstream ss;
+    ss << std::hex << i;
+    return ss.str();
 }
 
-void print_hex_maj(va_list ap)
+std::string print_hex_maj(va_list ap)
 {
     int i = va_arg(ap, int);
-    std::cout << std::hex << std::uppercase << i;
+    std::stringstream s;
+    s << std::hex << i << std::uppercase;
+    return s.str();
 }
 
-void print_unsigned(va_list ap)
+std::string print_unsigned(va_list ap)
 {
     unsigned int i = va_arg(ap, unsigned int);
-    std::cout << i;
+    return std::to_string(i);
 }
 
-void print_percent(va_list ap)
+std::string print_percent(va_list ap)
 {
-    std::cout << '%';
+    return "%";
 }
 
-void print_float_exp(va_list ap)
-{
-    float f = va_arg(ap, double);
-    std::cout << std::scientific << f;
-}
-
-void print_float_exp_maj(va_list ap)
+std::string print_float_exp(va_list ap)
 {
     float f = va_arg(ap, double);
-    std::cout << std::scientific << std::uppercase << f;
+    std::stringstream ss;
+    ss << std::scientific << f;
+    return ss.str();
 }
 
-void print_float_dec(va_list ap)
+std::string print_float_exp_maj(va_list ap)
 {
     float f = va_arg(ap, double);
-    std::cout << std::fixed << f;
+    std::stringstream ss;
+    ss << std::scientific << f << std::uppercase;
+    return ss.str();
 }
 
-void print_float_dec_maj(va_list ap)
+std::string print_float_dec(va_list ap)
 {
     float f = va_arg(ap, double);
-    std::cout << std::fixed << std::uppercase << f;
+    std::stringstream ss;
+    ss << std::fixed << f;
+    return ss.str();
 }
 
-void print_argSize(va_list ap)
+std::string print_float_dec_maj(va_list ap)
+{
+    float f = va_arg(ap, double);
+    std::stringstream ss;
+    ss << std::fixed << f << std::uppercase;
+    return ss.str();
+}
+
+std::string print_argSize(va_list ap)
 {
     int i = va_arg(ap, int);
-    std::cout << i;
+    return std::to_string(i);
 }
