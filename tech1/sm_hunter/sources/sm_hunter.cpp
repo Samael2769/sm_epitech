@@ -35,6 +35,10 @@ void sm_hunter::run()
     sf::Text text;
     text.setFont(font);
     text.setPosition(10, 10);
+    sf::Text text2;
+    text2.setFont(font);
+    text2.setPosition(500, 30);
+    float gameTime = 90.f;
     while(window->isOpen()) {
         dt = clock.restart().asMicroseconds();
         elapsed += dt;
@@ -79,7 +83,9 @@ void sm_hunter::run()
             level++;
         }
         text.setString(std::to_string(score));
+        text2.setString(std::to_string(gameTime - (elapsed / 1000000)));
         window->draw(text);
+        window->draw(text2);
         window->display();
         window->clear();
     }
