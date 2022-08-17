@@ -9,7 +9,7 @@
 
 sm_hunter::sm_hunter()
 {
-    window = new sf::RenderWindow(sf::VideoMode(800, 600), "SM HUNTER");
+    window = new sf::RenderWindow(sf::VideoMode(1000, 600), "SM HUNTER");
     sf::Texture texture;
     sf::Sprite sprite;
     background = std::make_pair(texture, sprite);
@@ -25,27 +25,63 @@ sm_hunter::~sm_hunter()
 void sm_hunter::run()
 {
     sf::Event event;
-    ducks.push_back(new Duck(3, 1, sf::Vector2f(0, 0)));
     sf::Clock clock;
     float dt = 0.f;
     float elapsed = 0.f;
+    int score;
+    int level = 1;
+    sf::Font font;
+    font.loadFromFile("assets/font.ttf");
+    sf::Text text;
+    text.setFont(font);
+    text.setPosition(10, 10);
     while(window->isOpen()) {
         dt = clock.restart().asMicroseconds();
         elapsed += dt;
+        if (ducks.size() <= level) {
+            ducks.push_back(new Duck(rand() % 4, level));
+        }
         while (window->pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window->close();
+            if (event.type == sf::Event::KeyPressed) {
+                if (event.key.code == sf::Keyboard::Escape)
+                    window->close();
+            }
+
         }
         window->draw(background.second);
         for (int i = 0; i < ducks.size(); i++) {
             window->draw(ducks[i]->duck[ducks[i]->current]);
-            if (elapsed >= 30.f) {
+            if (elapsed >= 20.f) {
                 ducks[i]->update();
-                elapsed = 0.f;
+                if (i == ducks.size() - 1)
+                    elapsed = 0.f;
             }
             ducks[i]->move();
+            if (ducks[i]->life <= 0) {
+                window->draw(ducks[i]->duck[2]);
+                ducks.erase(ducks.begin() + i);
+                score++;
+            }
+            if (ducks[i]->pos.x >= window->getSize().x || ducks[i]->pos.x <= 0) {
+                ducks.erase(ducks.begin() + i);
+            }
         }
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+            for (int i = 0; i < ducks.size(); i++) {
+                if (ducks[i]->pos.x >= sf::Mouse::getPosition(*window).x - 100 && ducks[i]->pos.x <= sf::Mouse::getPosition(*window).x + 100 && ducks[i]->pos.y >= sf::Mouse::getPosition(*window).y - 100 && ducks[i]->pos.y <= sf::Mouse::getPosition(*window).y + 100) {
+                    ducks[i]->life -= 1;
+                }
+            }
+        }
+        if (score >= 10 * level) {
+            level++;
+        }
+        text.setString(std::to_string(score));
+        window->draw(text);
         window->display();
         window->clear();
     }
+    std::cout << "Score: " << score << std::endl;
 }
