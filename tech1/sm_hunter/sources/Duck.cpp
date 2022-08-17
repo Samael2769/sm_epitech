@@ -12,7 +12,7 @@
 
 Duck::Duck(int type, int level)
 {
-    life = 1 * level;
+    life = 1;
     speed = 10 * level;
     current = 0;
     texture.loadFromFile("assets/duck.png");

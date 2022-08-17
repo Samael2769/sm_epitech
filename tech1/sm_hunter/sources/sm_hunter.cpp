@@ -28,7 +28,8 @@ void sm_hunter::run()
     sf::Clock clock;
     float dt = 0.f;
     float elapsed = 0.f;
-    int score;
+    float gameElapsed = 0.f;
+    int score = 0;
     int level = 1;
     sf::Font font;
     font.loadFromFile("assets/font.ttf");
@@ -39,10 +40,12 @@ void sm_hunter::run()
     text2.setFont(font);
     text2.setPosition(500, 30);
     float gameTime = 90.f;
+
     while(window->isOpen()) {
         dt = clock.restart().asMicroseconds();
         elapsed += dt;
-        if (ducks.size() <= level) {
+        gameElapsed += dt;
+        if (ducks.size() < level && ducks.size() < 3) {
             ducks.push_back(new Duck(rand() % 4, level));
         }
         while (window->pollEvent(event)) {
@@ -82,8 +85,11 @@ void sm_hunter::run()
         if (score >= 10 * level) {
             level++;
         }
+        if (gameTime - (gameElapsed / 1000000) <= 0) {
+            window->close();
+        }
         text.setString(std::to_string(score));
-        text2.setString(std::to_string(gameTime - (elapsed / 1000000)));
+        text2.setString(std::to_string(gameTime - (gameElapsed / 1000000)));
         window->draw(text);
         window->draw(text2);
         window->display();
