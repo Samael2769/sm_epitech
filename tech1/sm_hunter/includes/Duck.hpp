@@ -17,14 +17,18 @@
 
 class Duck {
     public:
-        Duck(int type, int level);
+        Duck(int type, int level, sf::Vector2f pos = sf::Vector2f(0, 0));
         ~Duck();
         void update();
+        void move();
         int current;
         sf::Texture texture;
         std::vector<sf::Sprite> duck;
         int speed;
         int life;
+        int depX;
+        int depY;
+        sf::Vector2f pos;
     protected:
     private:
 };

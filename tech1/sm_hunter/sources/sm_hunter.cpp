@@ -25,8 +25,13 @@ sm_hunter::~sm_hunter()
 void sm_hunter::run()
 {
     sf::Event event;
-    ducks.push_back(new Duck(0, 1));
+    ducks.push_back(new Duck(3, 1, sf::Vector2f(0, 0)));
+    sf::Clock clock;
+    float dt = 0.f;
+    float elapsed = 0.f;
     while(window->isOpen()) {
+        dt = clock.restart().asMicroseconds();
+        elapsed += dt;
         while (window->pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window->close();
@@ -34,7 +39,11 @@ void sm_hunter::run()
         window->draw(background.second);
         for (int i = 0; i < ducks.size(); i++) {
             window->draw(ducks[i]->duck[ducks[i]->current]);
-            ducks[i]->update();
+            if (elapsed >= 30.f) {
+                ducks[i]->update();
+                elapsed = 0.f;
+            }
+            ducks[i]->move();
         }
         window->display();
         window->clear();
