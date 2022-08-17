@@ -6,6 +6,7 @@
 */
 
 #include "sm_hunter.hpp"
+#include <fstream>
 
 sm_hunter::sm_hunter()
 {
@@ -95,5 +96,8 @@ void sm_hunter::run()
         window->display();
         window->clear();
     }
-    std::cout << "Score: " << score << std::endl;
+    std::fstream file;
+    file.open(".score", std::ios::out | std::ios::app);
+    file << score << std::endl;
+    std::cout << "Score = " << score << std::endl;
 }
