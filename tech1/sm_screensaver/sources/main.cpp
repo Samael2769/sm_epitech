@@ -10,6 +10,7 @@
 
 int main()
 {
+    srand(time(NULL));
     sm_screensaver screensaver;
     screensaver.run();
     return 0;
