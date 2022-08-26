@@ -12,6 +12,7 @@
 #include <pwd.h>
 #include <grp.h>
 #include <iomanip>
+#include<dirent.h>
 
 namespace fs = std::experimental::filesystem;
 
@@ -83,10 +84,10 @@ void sm_ls::display_long(std::string & path)
     struct group *gr;
     if (!fs::is_directory(path)) {
         fs::directory_entry p(path);
+        if (stat(p.path().c_str(), &statbuf) == -1)
+            return;
         file_type(p.status().type());
         demo_perms(fs::status(p).permissions());
-        if (stat(p.path().c_str(), &statbuf) == -1)
-            throw std::runtime_error("stat error");
         std::cout << statbuf.st_nlink << " ";
         pw = getpwuid(statbuf.st_uid);
         gr = getgrgid(statbuf.st_gid);
@@ -105,10 +106,10 @@ void sm_ls::display_long(std::string & path)
         x.push_back("..");
         for (int i = 0; i < x.size(); i++) {
             fs::directory_entry p(x[i]);
+            if (stat(p.path().c_str(), &statbuf) == -1)
+                continue;
             file_type(p.status().type());
             demo_perms(fs::status(p).permissions());
-            if (stat(p.path().c_str(), &statbuf) == -1)
-                throw std::runtime_error("stat error");
             std::cout << statbuf.st_nlink << " ";
             pw = getpwuid(statbuf.st_uid);
             gr = getgrgid(statbuf.st_gid);
@@ -160,13 +161,17 @@ void sm_ls::display_recursive(std::string & path)
 {
     std::vector<std::string> directories;
     for (auto & p : fs::directory_iterator(path)) {
-        if (fs::is_directory(p.path()))
+        if (fs::is_directory(p.path()) && (p.path().filename().string()[0] != '.' || opts.find('a') != std::string::npos))
             directories.push_back(p.path().string());
     }
     for (int i = 0; i < directories.size(); i++) {
         sm_ls ls;
         ls.add_opt(opts);
         ls.add_path(directories[i]);
-        ls.run();
+        try {
+            ls.run();
+        } catch (std::exception & e) {
+            std::cerr << e.what() << std::endl;
+        }
     }
 }
