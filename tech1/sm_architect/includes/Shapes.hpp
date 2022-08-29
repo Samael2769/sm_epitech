@@ -8,10 +8,14 @@
 #ifndef SHAPES_HPP_
 #define SHAPES_HPP_
 
-#include "sfml.hpp"
 #include <string>
 #include <iostream>
 #include <vector>
+
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/System.hpp>
+#include <SFML/Audio.hpp>
 
 class Shapes {
     public:

@@ -19,12 +19,30 @@ sm_architect::~sm_architect()
 
 void sm_architect::run()
 {
+    bool isWriting = false;
+    
+    sf::Event event;
     while (window->isOpen()) {
+        while (window->pollEvent(event)) {
+            switch(event.type) {
+                case sf::Event::Closed:
+                    window->close();
+                    break;
+                case sf::Event::KeyPressed:
+                    if (event.key.code == sf::Keyboard::Space)
+                        isWriting = !isWriting;
+                    break;
+                default:
+                    break;
+            }
+        }
+
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             window->close();
-        window->clear();
+        std::cout << isWriting << std::endl;
         for (auto &shape : shapes)
             window->draw(*shape.shape);
         window->display();
+        window->clear();
     }
 }

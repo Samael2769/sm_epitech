@@ -10,7 +10,7 @@
 
 int main()
 {
-    sm_architect sm;
+    sm_architect sm = sm_architect();
     sm.run();
     return 0;
 }

@@ -30,9 +30,9 @@ NAME			=	sm_architect
 
 ##############################################################
 
-CFLAGS			=	-W -Wall -Wextra
+CXLAGS			=	-W -Wall -Wextra
 
-CPPFLAGS		=	-I./includes
+CXXFLAGS		=	-I./includes
 
 TEST_LIB		=	--coverage -lcriterion -lgcov
 
@@ -53,7 +53,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ) $(OBJ_MAIN)
 	@$(PRNT) -e "\e[0;31m Compiling ${NAME}... \e[0m"
-	$(CC) -o $(NAME) $(OBJ) $(OBJ_MAIN) -lsfml-graphics -lsfml-window -lsfml-system
+	$(CC) -o $(NAME) $(OBJ) $(OBJ_MAIN) -lsfml-graphics -lsfml-window -lsfml-system -std=c++11
 
 make_lib:
 	@$(PRNT) -e "\e[0;31m Making lib $(LIB_DIR)... \e[0m"
