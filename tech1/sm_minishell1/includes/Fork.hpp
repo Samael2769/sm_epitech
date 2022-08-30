@@ -25,6 +25,7 @@ class Fork {
         ~Fork();
         void process();
         int getStatus() const { return _status; }
+        void setData(void *data) { _data = data; }
     protected:
     private:
         void * _data;

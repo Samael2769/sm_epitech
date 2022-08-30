@@ -7,20 +7,10 @@
 
 #include <iostream>
 #include "sm_shell.hpp"
-#include "Fork.hpp"
 
-int test(void * data)
+int main(int ac, char **av, char **env)
 {
-    std::string *str = (std::string *)data;
-    std::cout << *str << std::endl;
-    return 1;
-}
-
-int main()
-{
-    std::string * data = new std::string("test");
-    Fork * fork = new Fork(data, test);
-    fork->process();
-    std::cout << fork->getStatus() << std::endl;
+    sm_shell shell(env);
+    shell.run();
     return 0;
 }

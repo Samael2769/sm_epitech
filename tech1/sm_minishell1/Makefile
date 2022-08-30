@@ -13,6 +13,7 @@ LIB_DIR			=	lib/sm_libc/
 
 SRC_FILES		=	sm_shell.cpp			\
 					Fork.cpp				\
+					Execve.cpp				\
 
 SRC_FILES_MAIN	=	main.cpp			\
 

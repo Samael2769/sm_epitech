@@ -26,7 +26,6 @@ void Fork::process()
     int status = 0;
 
     if (pid == 0) {
-        std::cout << "Child process" << std::endl;
         exit(_func(_data));
     } else if (pid < 0) {
         throw fork_exception("Fork failed");
