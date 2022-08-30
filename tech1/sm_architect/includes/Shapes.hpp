@@ -21,7 +21,11 @@ class Shapes {
     public:
         Shapes(sf::Shape *shape, std::string name);
         ~Shapes();
-
+        std::string getName() { return name; };
+        void move(std::string x, std::string y) {
+            shape->setPosition(std::stoi(x), std::stoi(y));
+        };
+        void show_name(sf::RenderWindow *window);
         sf::Shape *shape; 
     protected:
     private:
