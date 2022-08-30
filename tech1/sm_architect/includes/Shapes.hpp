@@ -26,10 +26,15 @@ class Shapes {
             shape->setPosition(std::stoi(x), std::stoi(y));
         };
         void show_name(sf::RenderWindow *window);
+        void drag(sf::RenderWindow *window);
+        void Trigger() { isDragged = true; }
+        void Untrigger() { isDragged = false; }
+        bool getTrigger() { return isDragged; }
         sf::Shape *shape; 
     protected:
     private:
         std::string name;
+        bool isDragged;
 };
 
 #endif /* !SHAPES_HPP_ */

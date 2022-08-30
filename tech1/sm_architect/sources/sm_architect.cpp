@@ -241,13 +241,38 @@ void sm_architect::run()
             if (isWriting && event.type == sf::Event::TextEntered && !sf::Keyboard::isKeyPressed(sf::Keyboard::Backspace)) {
                 input += event.text.unicode;
             }
-
+            if (event.type == sf::Event::MouseButtonPressed) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    for (auto &shape : shapes) {
+                        if (shape.shape->getGlobalBounds().contains(window->mapPixelToCoords(sf::Mouse::getPosition(*window)))) {
+                            shape.Trigger();
+                        }
+                    }
+                }
+                if (event.mouseButton.button == sf::Mouse::Right) {
+                    for (auto &shape : shapes) {
+                        shape.Untrigger();
+                    }
+                }
+            }
+            if (event.type == sf::Event::MouseButtonReleased) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    for (auto &shape : shapes) {
+                        if (shape.shape->getGlobalBounds().contains(window->mapPixelToCoords(sf::Mouse::getPosition(*window)))) {
+                            shape.Untrigger();
+                        }
+                    }
+                }
+            }
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             window->close();
         if (input != "")
             text.setString(input.substring(1, input.getSize()));
+        for (auto &shape : shapes) {
+            shape.drag(window);
+        }
         for (auto &shape : shapes)
             window->draw(*shape.shape);
         if (showName)
