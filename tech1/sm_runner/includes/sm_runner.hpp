@@ -26,6 +26,11 @@ class sm_runner {
         std::vector<std::pair<sf::Texture * , sf::Sprite *>> _parallax;
         std::vector<std::pair<sf::Texture * , sf::Sprite *>> _player;
         int curr;
+        bool _isJumping;
+        float elapsed;
+        float elapsed2;
+        bool _MoveRight;
+        bool _MoveLeft;
 };
 
 #endif /* !SM_RUNNER_HPP_ */
