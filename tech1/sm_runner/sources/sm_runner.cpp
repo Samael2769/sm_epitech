@@ -19,11 +19,39 @@ sm_runner::sm_runner()
         sprite->setScale(3, 3);
         _parallax.push_back(std::make_pair(texture, sprite));
     }
+    sf::Texture * texture = new sf::Texture();
+    texture->loadFromFile("assets/aigle.png");
+    for (int i = 0; i < 4; ++i) {
+        sf::Sprite * sprite = new sf::Sprite(*texture, sf::IntRect(875 * i, 0, 875, 1198));
+        _player.push_back(std::make_pair(texture, sprite));
+        _player[i].second->setPosition(0, 0);
+        _player[i].second->setScale(0.1, 0.1);
+    }
+    curr = 0;
 }
 
 sm_runner::~sm_runner()
 {
-    
+
+}
+
+void sm_runner::update()
+{
+    _parallax[1].second->move(-2, 0);
+    _parallax[2].second->move(-5, 0);
+    _parallax[3].second->move(-10, 0);
+    _parallax[4].second->move(-20, 0);
+    if (_parallax[1].second->getPosition().x < -800)
+        _parallax[1].second->setPosition(800, 0);
+    if (_parallax[2].second->getPosition().x < -800)
+        _parallax[2].second->setPosition(0, 0);
+    if (_parallax[3].second->getPosition().x < -800)
+        _parallax[3].second->setPosition(0, 0);
+    if (_parallax[4].second->getPosition().x < -800)
+        _parallax[4].second->setPosition(0, 0);
+    curr++;
+    if (curr == 4)
+        curr = 0;
 }
 
 void sm_runner::run()
@@ -37,9 +65,11 @@ void sm_runner::run()
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             window->close();
         window->clear();
+        update();
         for (auto &i : _parallax) {
             window->draw(*i.second);
         }
+        window->draw(*_player[curr].second);
         window->display();
     }
 }

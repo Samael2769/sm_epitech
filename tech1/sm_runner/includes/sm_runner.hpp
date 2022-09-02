@@ -12,15 +12,20 @@
 #include <vector>
 #include <utility>
 
+//3500 1198
+
 class sm_runner {
     public:
         sm_runner();
         ~sm_runner();
         void run();
+        void update();
     protected:
     private:
         sf::RenderWindow * window;
         std::vector<std::pair<sf::Texture * , sf::Sprite *>> _parallax;
+        std::vector<std::pair<sf::Texture * , sf::Sprite *>> _player;
+        int curr;
 };
 
 #endif /* !SM_RUNNER_HPP_ */
