@@ -6,6 +6,7 @@
 */
 
 #include "sm_runner.hpp"
+#include <iostream>
 
 sm_runner::sm_runner()
 {
@@ -32,6 +33,17 @@ sm_runner::sm_runner()
     _MoveLeft = false;
     _MoveRight = false;
     _isJumping = false;
+    map_time = 0;
+    elapsed = 0;
+    elapsed2 = 0;
+
+    std::ifstream file("assets/map");
+    std::string line;
+    while (std::getline(file, line)) {
+        _map.push_back(line);
+    }
+    map_iterator = 0;
+    cnt = 0;
 }
 
 sm_runner::~sm_runner()
@@ -41,11 +53,21 @@ sm_runner::~sm_runner()
 
 void sm_runner::update()
 {
-    if (elapsed >= 1000000) {
+    if (elapsed >= 100000) {
         _parallax[1].second->move(-2, 0);
         _parallax[2].second->move(-5, 0);
         _parallax[3].second->move(-10, 0);
         _parallax[4].second->move(-20, 0);
+        for (int i = 0; i < _enemies.size(); i++) {
+            _enemies[i]->update();
+            if (_enemies[i]->_wasp.second->getPosition().x < 0) {
+                _enemies.erase(_enemies.begin() + i);
+            }
+            if (_enemies[i]->_wasp.second->getGlobalBounds().intersects(_player[curr].second->getGlobalBounds())) {
+                std::cout << "You died" << std::endl;
+                exit(0);
+            }
+        }
         elapsed = 0;
     }
     if (_parallax[1].second->getPosition().x < -800)
@@ -74,7 +96,35 @@ void sm_runner::update()
     if (_MoveRight && _player[curr].second->getPosition().x <= 800)
         for (int i = 0; i < 4; i++)
             _player[i].second->move(15, 0);
-    
+
+    if (map_time >= 2000000) {
+        for (int i = 0; i < _map.size(); ++i) {
+            if(_map[i][map_iterator] == 'o') {
+                Wasp * wasp = new Wasp(true, 800, i * 100);
+                _enemies.push_back(wasp);
+            }
+            if(_map[i][map_iterator] == 'p') {
+                Wasp * wasp = new Wasp(false, 800, i * 100);
+                _enemies.push_back(wasp);
+                cnt = 1;
+            }
+            if (_map[i][map_iterator] == '!' && cnt == 1) {
+                for (int j = 0; j < _enemies.size(); j++) {
+                    if (_enemies[j]->_type == false) {
+                        cnt = 1;
+                        break;
+                    }
+                    cnt = 3;
+                }
+                if (cnt == 3) {
+                    std::cout << "You won" << std::endl;
+                    exit(0);
+                }
+            }
+        }
+        map_iterator++;
+        map_time = 0;
+    }
 }
 
 void sm_runner::run()
@@ -85,9 +135,10 @@ void sm_runner::run()
     elapsed2 = 0;
     while (window->isOpen()) {
         sf::Event event;
-        dt += clock.restart().asMicroseconds();
+        dt = clock.restart().asMicroseconds();
         elapsed += dt;
         elapsed2 += dt;
+        map_time += dt;
         while (window->pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window->close();
@@ -116,6 +167,9 @@ void sm_runner::run()
         update();
         for (auto &i : _parallax) {
             window->draw(*i.second);
+        }
+        for (auto &i : _enemies) {
+            window->draw(*i->_wasp.second);
         }
         window->draw(*_player[curr].second);
         window->display();

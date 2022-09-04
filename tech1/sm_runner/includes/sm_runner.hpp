@@ -11,6 +11,8 @@
 #include "sfml.hpp"
 #include <vector>
 #include <utility>
+#include "Wasp.hpp"
+#include <fstream>
 
 //3500 1198
 
@@ -29,8 +31,13 @@ class sm_runner {
         bool _isJumping;
         float elapsed;
         float elapsed2;
+        float map_time;
         bool _MoveRight;
         bool _MoveLeft;
+        std::vector<std::string> _map;
+        int map_iterator;
+        std::vector<Wasp *> _enemies;
+        int cnt;
 };
 
 #endif /* !SM_RUNNER_HPP_ */

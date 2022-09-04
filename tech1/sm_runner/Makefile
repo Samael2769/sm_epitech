@@ -12,6 +12,7 @@ TEST_DIR		=	tests/
 LIB_DIR			=	lib/sm_libc/
 
 SRC_FILES		=	sm_runner.cpp			\
+					Wasp.cpp				\
 
 SRC_FILES_MAIN	=	main.cpp			\
 
