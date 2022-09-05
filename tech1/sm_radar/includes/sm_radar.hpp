@@ -9,6 +9,12 @@
 #define SM_RADAR_HPP_
 
 #include "sfml.hpp"
+#include <vector>
+#include <string>
+#include <iostream>
+#include <fstream>
+#include <utility>
+#include "Plane.hpp"
 
 class sm_radar {
     public:
@@ -18,6 +24,8 @@ class sm_radar {
     protected:
     private:
         sf::RenderWindow * window;
+        std::vector<std::pair<sf::Texture *, sf::Sprite *>> sprites;
+        std::vector<Plane *> planes;
 };
 
 #endif /* !SM_RADAR_HPP_ */
