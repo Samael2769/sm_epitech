@@ -11,6 +11,7 @@
 sm_hunter::sm_hunter()
 {
     window = new sf::RenderWindow(sf::VideoMode(1000, 600), "SM HUNTER");
+    window->setFramerateLimit(60);
     sf::Texture texture;
     sf::Sprite sprite;
     background = std::make_pair(texture, sprite);
@@ -61,7 +62,7 @@ void sm_hunter::run()
         window->draw(background.second);
         for (int i = 0; i < ducks.size(); i++) {
             window->draw(ducks[i]->duck[ducks[i]->current]);
-            if (elapsed >= 20.f) {
+            if (elapsed >= 200000) {
                 ducks[i]->update();
                 if (i == ducks.size() - 1)
                     elapsed = 0.f;
@@ -78,8 +79,9 @@ void sm_hunter::run()
         }
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
             for (int i = 0; i < ducks.size(); i++) {
-                if (ducks[i]->pos.x >= sf::Mouse::getPosition(*window).x - 100 && ducks[i]->pos.x <= sf::Mouse::getPosition(*window).x + 100 && ducks[i]->pos.y >= sf::Mouse::getPosition(*window).y - 100 && ducks[i]->pos.y <= sf::Mouse::getPosition(*window).y + 100) {
+                if (ducks[i]->duck[ducks[i]->current].getGlobalBounds().contains(sf::Mouse::getPosition(*window).x, sf::Mouse::getPosition(*window).y)) {
                     ducks[i]->life -= 1;
+                    break;
                 }
             }
         }

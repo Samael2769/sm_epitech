@@ -13,7 +13,7 @@
 Duck::Duck(int type, int level)
 {
     life = 1;
-    speed = 10 * level;
+    speed = 1 * level;
     current = 0;
     texture.loadFromFile("assets/duck.png");
     death.loadFromFile("assets/explosion.png");
@@ -74,7 +74,7 @@ void Duck::update()
 void Duck::move()
 {
     for (int i = 0; i < duck.size(); i++) {
-        duck[i].move(depX * speed, depY * speed);
+        duck[i].setPosition(duck[i].getPosition().x + depX * speed, duck[i].getPosition().y + depY * speed);
         pos = duck[i].getPosition();
     }
 }
