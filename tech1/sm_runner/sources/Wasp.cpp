@@ -21,7 +21,7 @@ Wasp::Wasp(bool type, float x, float y)
         _wasp.first->loadFromFile("assets/boss.png");
         _wasp.second = new sf::Sprite(*_wasp.first);
         _wasp.second->setPosition(x, y);
-        _wasp.second->setScale(0.5, 0.5);
+        _wasp.second->setScale(0.2, 0.2);
     }
 }
 

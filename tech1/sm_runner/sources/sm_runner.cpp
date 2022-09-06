@@ -78,7 +78,7 @@ void sm_runner::update()
         _parallax[3].second->setPosition(0, 0);
     if (_parallax[4].second->getPosition().x < -800)
         _parallax[4].second->setPosition(0, 0);
-    if (elapsed2 >= 10000) {
+    if (elapsed2 >= 400000) {
         curr++;
         if (curr >= 4)
             curr = 0;
@@ -86,16 +86,16 @@ void sm_runner::update()
     }
     if (_isJumping && _player[curr].second->getPosition().y > 0)
         for (int i = 0; i < 4; i++)
-            _player[i].second->move(0, -10);
+            _player[i].second->move(0, -5);
     if (!_isJumping && _player[curr].second->getPosition().y < 500 - 1198 * 0.1)
         for (int i = 0; i < 4; i++)
-            _player[i].second->move(0, 20);
+            _player[i].second->move(0, 10);
     if (_MoveLeft && _player[curr].second->getPosition().x >= 0)
         for (int i = 0; i < 4; i++)
-            _player[i].second->move(-15, 0);
+            _player[i].second->move(-5, 0);
     if (_MoveRight && _player[curr].second->getPosition().x <= 800)
         for (int i = 0; i < 4; i++)
-            _player[i].second->move(15, 0);
+            _player[i].second->move(5, 0);
 
     if (map_time >= 2000000) {
         for (int i = 0; i < _map.size(); ++i) {
