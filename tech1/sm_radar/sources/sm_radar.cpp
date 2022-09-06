@@ -11,6 +11,7 @@
 sm_radar::sm_radar()
 {
     window = new sf::RenderWindow(sf::VideoMode(800, 500), "Sm Radar");
+    window->setFramerateLimit(60);
     sf::Texture *texture = new sf::Texture();
     sf::Sprite *sprite = new sf::Sprite();
     texture->loadFromFile("assets/map.jpg");
