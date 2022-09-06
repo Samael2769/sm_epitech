@@ -10,6 +10,7 @@
 sm_screensaver::sm_screensaver()
 {
     _window = new sf::RenderWindow(sf::VideoMode(800, 600), "Screensaver");
+    _window->setFramerateLimit(60);
 }
 
 sm_screensaver::~sm_screensaver()
