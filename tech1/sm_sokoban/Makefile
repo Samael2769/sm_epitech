@@ -11,9 +11,10 @@ TEST_DIR		=	tests/
 
 LIB_DIR			=	lib/sm_libc/
 
-SRC_FILES		=	sm_cypher.cpp			\
+SRC_FILES		=	mySokoban.cpp			\
 
 SRC_FILES_MAIN	=	main.cpp			\
+					Ncurses.cpp			\
 
 TEST_FILES		=				\
 
@@ -25,7 +26,7 @@ SRC_MAIN		=	$(addprefix $(SRC_DIR), $(SRC_FILES_MAIN))
 
 OBJ				=	$(SRC:.cpp=.o) $(SRC_MAIN:.cpp=.o)	
 
-NAME			=	sm_cypher
+NAME			=	mySokoban
 
 ##############################################################
 
@@ -52,7 +53,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ) $(OBJ_MAIN)
 	@$(PRNT) -e "\e[0;31m Compiling ${NAME}... \e[0m"
-	$(CC) -o $(NAME) $(OBJ) $(OBJ_MAIN)
+	$(CC) -o $(NAME) $(OBJ) $(OBJ_MAIN) -lcurses
 
 make_lib:
 	@$(PRNT) -e "\e[0;31m Making lib $(LIB_DIR)... \e[0m"

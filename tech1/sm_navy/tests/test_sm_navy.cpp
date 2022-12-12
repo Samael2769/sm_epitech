@@ -7,7 +7,7 @@
 
 #include <criterion/criterion.h>
 #include <criterion/redirect.h>
-#include "sm_cypher.hpp"
+#include "sm_navy.hpp"
 
 void redirect_all_std(void)
 {
