@@ -6,8 +6,12 @@
 */
 
 #include "sm_navy.hpp"
-#include <csignal>
+#include <signal.h>
 #include <fstream>
+#include <exception>
+
+
+static int pid2 = 0;
 
 sm_navy::sm_navy()
 {
@@ -123,4 +127,46 @@ void sm_navy::writeBoats()
         c = line[0];
         placeShip(c1, c2, size, c);
     }
+}
+
+void sm_navy::printPID()
+{
+    std::cout << "my_pid: " << getpid() << std::endl;
+}
+
+void sig1(int signal, siginfo_t *sig1, void *sig)
+{
+    std::cout << "User connected" << std::endl;
+    kill(sig1->si_pid, SIGUSR2);
+    pid2 = sig1->si_pid;
+}
+
+void sig2(int signal, siginfo_t *sig1, void *sig)
+{
+    std::cout << "Connection established" << std::endl;
+}
+
+bool sm_navy::playerOne()
+{
+    printPID();
+    struct sigaction sa;
+    sa.sa_sigaction = &sig1;
+    sa.sa_flags = SA_SIGINFO;
+    std::cout << "waiting for enemy connection..." << std::endl;
+    sigaction(SIGUSR1, &sa, NULL);
+    if (usleep(10000000) == 0)
+        throw std::logic_error("Too long to connect");
+    return true;
+}
+
+bool sm_navy::playerTwo()
+{
+    kill(_pid, SIGUSR1);
+    struct sigaction sa;
+    sa.sa_sigaction = &sig2;
+    sa.sa_flags = SA_SIGINFO;
+    sigaction(SIGUSR2, &sa, NULL);
+    if (usleep(10000000) == 0)
+        throw std::logic_error("Too long to connect");
+    return true;
 }

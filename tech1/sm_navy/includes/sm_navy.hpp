@@ -12,6 +12,8 @@
 #include <vector>
 #include <string>
 #include <utility>
+#include <sys/types.h>
+#include <unistd.h>
 
 class sm_navy {
     public:
@@ -19,6 +21,7 @@ class sm_navy {
         ~sm_navy();
         void setType(int type) {_type = type;}
         void setBoatFile(std::string file) {_boatFile = file;}
+        void setPid(int pid) {_pid = pid;}
         void writeBoats();
         void display_map();
         void create_map();
@@ -27,12 +30,17 @@ class sm_navy {
         bool checkCoords(std::pair<int, int> coord);
         void sendData(bool val);
         bool receiveData();
+        void printPID();
+        bool playerOne();
+        bool playerTwo();
         
     protected:
     private:
         int _type;
         std::vector<std::string> _map;
         std::string _boatFile;
+        int _pid;
+        int _pid2;
 };
 
 #endif /* !SM_NAVY_HPP_ */

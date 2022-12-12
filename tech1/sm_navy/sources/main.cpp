@@ -16,9 +16,12 @@ int main(int ac, char **av)
     if (ac == 2) {
         navy.setType(1);
         navy.setBoatFile(av[1]);
+        navy.playerOne();
     } else {
         navy.setType(2);
         navy.setBoatFile(av[2]);
+        navy.setPid(atoi(av[1]));
+        navy.playerTwo();
     }
     navy.run();
     return 0;
