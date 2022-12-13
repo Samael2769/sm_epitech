@@ -6,16 +6,18 @@
 */
 
 #include "sm_navy.hpp"
-#include <signal.h>
 #include <fstream>
 #include <exception>
 
 
 static int pid2 = 0;
+static int x = 0;
+static int y = 0;
 
 sm_navy::sm_navy()
 {
     create_map();
+    _enemy = _map;
 }
 
 sm_navy::~sm_navy()
@@ -35,6 +37,18 @@ void sm_navy::display_map()
     }
 }
 
+void sm_navy::display_enemy()
+{
+    std::cout << " |A B C D E F G H" << std::endl;
+    for (int i = 0; i < _enemy.size(); i++) {
+        std::cout << i + 1 << "|";
+        for (int j = 0; j < _enemy[i].size(); j++) {
+            std::cout << _enemy[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+}
+
 void sm_navy::create_map()
 {
     _map.push_back("........");
@@ -49,7 +63,36 @@ void sm_navy::create_map()
 void sm_navy::run()
 {
     writeBoats();
-    display_map();
+    set_signal();
+    usleep(1);
+
+    int t = 0;
+    if (_type == 2)
+        t = 1;
+
+    while (1) { 
+        if (t == 0) {
+            display_map();
+            display_enemy();
+            std::cout << "attack: ";
+            std::string input;
+            std::cin >> input;
+            if (input.size() != 2)
+                throw std::invalid_argument("Invalid coordinates");
+            if (input[0] < 'A' || input[0] > 'H')
+                throw std::invalid_argument("Invalid coordinates");
+            if (input[1] < '1' || input[1] > '8')
+                throw std::invalid_argument("Invalid coordinates");
+            attack(input[0] - 'A', input[1] - '0');
+            t = 1;
+            usleep(1);
+        } else {
+            usleep(100000);
+            std::pair<int, int> coord = defense();
+            std::cout << "enemy's attack: " << (char)(coord.first + 'A') << coord.second + 1 << std::endl;
+            t = 0;
+        }
+    }
 }
 
 //Place ship from c1 to c2 with size size
@@ -90,16 +133,6 @@ bool sm_navy::checkCoords(std::pair<int, int> coord)
     return false;
 }
 
-void sm_navy::sendData(bool val)
-{
-    
-}
-
-bool sm_navy::receiveData()
-{
-    return false;
-}
-
 //get file datas in boat vector
 void sm_navy::writeBoats()
 {
@@ -134,39 +167,120 @@ void sm_navy::printPID()
     std::cout << "my_pid: " << getpid() << std::endl;
 }
 
-void sig1(int signal, siginfo_t *sig1, void *sig)
+void sig_SIGUSR1(int signal)
 {
-    std::cout << "User connected" << std::endl;
-    kill(sig1->si_pid, SIGUSR2);
-    pid2 = sig1->si_pid;
+    x += 1;
 }
 
-void sig2(int signal, siginfo_t *sig1, void *sig)
+void sig_SIGUSR2(int signal)
 {
-    std::cout << "Connection established" << std::endl;
+    y = 1;
+}
+
+void sm_navy::sendData(bool val)
+{
+    if (val == true)
+        kill(pid2, SIGUSR1);
+    else
+        kill(pid2, SIGUSR2);
+}
+
+void sm_navy::set_signal()
+{
+    signal(SIGUSR1, sig_SIGUSR1);
+    signal(SIGUSR2, sig_SIGUSR2);
+}
+
+bool sm_navy::receiveData()
+{
+    if (usleep(1000000000) == 0) {
+        std::cout << "retry" << std::endl;
+    }
+    if (y == 0) {
+        return true;
+    } else {
+        y = 0;
+        return false;
+    }
+}
+
+void handler(int signal, siginfo_t *sig1, void *sig)
+{
+    pid2 = sig1->si_pid;
+    std::cout << "enemy connected" << std::endl;
+    kill(pid2, SIGUSR2);
+}
+
+void handler_rec(int signal, siginfo_t *sig1, void *sig)
+{
+    std::cout << "successfully connected to " << pid2 << std::endl;
 }
 
 bool sm_navy::playerOne()
 {
     printPID();
     struct sigaction sa;
-    sa.sa_sigaction = &sig1;
     sa.sa_flags = SA_SIGINFO;
+    sa.sa_sigaction = &handler;
     std::cout << "waiting for enemy connection..." << std::endl;
     sigaction(SIGUSR1, &sa, NULL);
     if (usleep(10000000) == 0)
         throw std::logic_error("Too long to connect");
+    usleep(1);
     return true;
 }
 
 bool sm_navy::playerTwo()
 {
-    kill(_pid, SIGUSR1);
+    pid2 = _pid;
+    _pid = getpid();
+    kill(pid2, SIGUSR1);
     struct sigaction sa;
-    sa.sa_sigaction = &sig2;
     sa.sa_flags = SA_SIGINFO;
+    sa.sa_sigaction = &handler_rec;
     sigaction(SIGUSR2, &sa, NULL);
     if (usleep(10000000) == 0)
         throw std::logic_error("Too long to connect");
+    usleep(1);
     return true;
+}
+
+void sm_navy::attack(int _x, int _y)
+{
+    for (int i = 0; i < _x; ++i) {
+        sendData(true);
+        usleep(1);
+    }
+    sendData(false);
+    usleep(1);
+    for (int i = 0; i < _y; ++i) {
+        sendData(true);
+        usleep(1);
+    }
+    sendData(false);
+    usleep(1);
+}
+
+std::pair<int, int> sm_navy::defense()
+{
+    std::pair<int, int> coord;
+    coord.first = 0;
+    coord.second = 0;
+    while (1) {
+        if (receiveData() == false)
+            break;
+        usleep(1);
+    }
+    usleep(1);
+    coord.first = x;
+    x = 0;
+    while (1) {
+        if (receiveData() == false)
+            break;
+        usleep(1);
+    }
+    coord.second = x;
+    x = 0;
+    usleep(1);
+    return coord;
 }
