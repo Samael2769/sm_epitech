@@ -23,3 +23,14 @@ The algorithm is based on the Huffman algorithm. The program reads the file and 
     Output:
         255(0-2)
         125(3)
+
+## Text
+The algorithm use the run-length encoding. The program reads the file and counts the number of times each character appears. Then it creates a tree with the characters and their frequencies. These frequencies are written in the compressed file.
+
+Do not use text with numbers in it. The program will not work properly.
+
+### Example
+    Input: 
+        aaaaabbbbbccccc
+    Output:
+       5a5b5c
